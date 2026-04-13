@@ -22,9 +22,9 @@ init([#{options := #{port_cmd := PortCmd}} = Args]) ->
     {ok, Args#{db => #{}, port => captcha_open_port(PortCmd)}}.
 %%1
 handle_event(
-    {update, BotName,
+    {update, _BotName,
         #{
-            chat_member := Msg = #{
+            chat_member := _Msg = #{
                 chat := #{id := ChatId},
                 from := #{id := UserId, first_name := UserName},
                 new_chat_member := #{status := <<"member">>, user := #{is_bot := false}}
@@ -41,14 +41,14 @@ handle_event(
 handle_event(
     {update, BotName,
         #{
-            message := Msg = #{
+            message := _Msg = #{
                 chat := #{id := ChatId},
                 from := #{id := UserId},
                 message_id := MessageId,
                 text := Text
             }
         } = _Result},
-    #{db := DB, port := Port, options := #{code_ok := CodeOk, code_bad := CodeBad}} = State
+    #{db := DB, port := _Port, options := #{code_ok := CodeOk, code_bad := CodeBad}} = State
 ) ->
     Key = {ChatId, UserId},
     DBNew =
@@ -80,13 +80,13 @@ handle_event(
                 end
         end,
     {ok, State#{db => DBNew}};
-handle_event({error, BotName, Err, Msg}, State) ->
+handle_event({error, _BotName, _Err, _Msg}, State) ->
     {ok, State};
 handle_event(_Event, State) ->
     {ok, State}.
 handle_call(_Request, State) ->
     {ok, no_reply, State}.
-handle_info({async, Ref, {ok, 200, #{ok := true, result := true}}}, State) ->
+handle_info({async, _Ref, {ok, 200, #{ok := true, result := true}}}, State) ->
     {ok, State};
 
 handle_info(
@@ -112,7 +112,7 @@ handle_info(
             Result
     end,
     {ok, State};
-handle_info({'DOWN', MonitorRef, port, Port, Reason}, State) ->
+handle_info({'DOWN', _MonitorRef, port, _Port, _Reason}, State) ->
     %%TODO
     {ok, State};
 handle_info(
@@ -144,7 +144,7 @@ handle_info(
     {ok, State#{db => DB#{Key => Code}}};
 handle_info(_Info, State) ->
     {ok, State}.
-terminate(_Args, State) ->
+terminate(_Args, _State) ->
     ok.
 code_change(_OldVsn, State, _Extra) ->
     {ok, State}.

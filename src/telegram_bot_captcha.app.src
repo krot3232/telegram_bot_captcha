@@ -11,5 +11,7 @@
     {env, []},
     {modules, []},
     {licenses, ["MIT"]},
-    {links, []}
+    {links, [
+        {"GitHub", "https://github.com/krot3232/telegram_bot_captcha"}
+    ]}
 ]}.

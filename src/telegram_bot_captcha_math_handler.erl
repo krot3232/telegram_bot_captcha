@@ -17,7 +17,7 @@ init([Args]) ->
 handle_event(
     {update, BotName,
         #{
-            chat_member := Msg = #{
+            chat_member := _Msg = #{
                 chat := #{id := ChatId},
                 from := #{id := UserId, first_name := UserName},
                 new_chat_member := #{status := <<"member">>, user := #{is_bot := false}}
@@ -49,7 +49,7 @@ handle_event(
 handle_event(
     {update, BotName,
         #{
-            message := Msg = #{
+            message := _Msg = #{
                 chat := #{id := ChatId},
                 from := #{id := UserId},
                 message_id := MessageId,
@@ -90,13 +90,13 @@ handle_event(
                 end
         end,
     {ok, State#{db => DBNew}};
-handle_event({error, BotName, Err, Msg}, State) ->
+handle_event({error, _BotName, _Err, _Msg}, State) ->
     {ok, State};
 handle_event(_Event, State) ->
     {ok, State}.
 handle_call(_Request, State) ->
     {ok, no_reply, State}.
-handle_info({async, Ref, {ok, 200, #{ok := true, result := true}}}, State) ->
+handle_info({async, _Ref, {ok, 200, #{ok := true, result := true}}}, State) ->
     {ok, State};
 %%2.1
 %event
@@ -124,7 +124,7 @@ handle_info(
     {ok, State};
 handle_info(_Info, State) ->
     {ok, State}.
-terminate(_Args, State) ->
+terminate(_Args, _State) ->
     ok.
 code_change(_OldVsn, State, _Extra) ->
     {ok, State}.
