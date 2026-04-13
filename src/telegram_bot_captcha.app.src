@@ -1,0 +1,15 @@
+{application, telegram_bot_captcha, [
+    {description, "Telegram Bot captcha"},
+    {vsn, git},
+    {registered, []},
+    {mod, {telegram_bot_captcha, []}},
+    {applications, [
+        kernel,
+        stdlib,
+        telegram_bot_api
+    ]},
+    {env, []},
+    {modules, []},
+    {licenses, ["MIT"]},
+    {links, []}
+]}.
